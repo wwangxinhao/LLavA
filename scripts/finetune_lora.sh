@@ -10,18 +10,18 @@
 ################## VICUNA ##################
 
 ################## LLaMA-2 ##################
-# PROMPT_VERSION="llava_llama_2"
-# MODEL_VERSION="llama-2-7b-chat"
+PROMPT_VERSION="llava_llama_2"
+MODEL_VERSION="llama-2-7b-chat"
 ################## LLaMA-2 ##################
 
 deepspeed llava/train/train_mem.py \
     --deepspeed ./scripts/zero2.json \
     --lora_enable True \
-    --model_name_or_path ./checkpoints/$MODEL_VERSION \
+    --model_name_or_path /sdc/models/shakechen/Llama-2-7b-chat-hf/ \
     --version $PROMPT_VERSION \
-    --data_path ./playground/data/llava_instruct_80k.json \
-    --image_folder /path/to/coco/train2017 \
-    --vision_tower openai/clip-vit-large-patch14 \
+    --data_path /sdc/datasets/LLaVA-SFT/LLaVA-Instruct-150K/llava_instruct_80k.json \
+    --image_folder /sdc/datasets/LLaVA-SFT/playground/coco/train2017 \
+    --vision_tower /sdc/models/openai-clip-vit-large-patch14/ \
     --pretrain_mm_mlp_adapter ./checkpoints/llava-$MODEL_VERSION-pretrain/mm_projector.bin \
     --mm_vision_select_layer -2 \
     --mm_use_im_start_end False \
@@ -29,7 +29,7 @@ deepspeed llava/train/train_mem.py \
     --bf16 True \
     --output_dir ./checkpoints/llava-$MODEL_VERSION-finetune_lora \
     --num_train_epochs 1 \
-    --per_device_train_batch_size 16 \
+    --per_device_train_batch_size 4 \
     --per_device_eval_batch_size 4 \
     --gradient_accumulation_steps 1 \
     --evaluation_strategy "no" \

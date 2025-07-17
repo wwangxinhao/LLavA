@@ -143,3 +143,6 @@ if __name__ == "__main__":
     args = parser.parse_args()
 
     eval_model(args)
+
+
+#python3 llava/eval/run_llava.py --model-path ./checkpoints/llava-llama-2-7b-chat-finetune_lora --model-base /sdc/models/shakechen/Llama-2-7b-chat-hf/ --image-file /sdc/datasets/LLaVA-SFT/playground/coco/train2017/000000146700.jpg  --query "图里有什么"
